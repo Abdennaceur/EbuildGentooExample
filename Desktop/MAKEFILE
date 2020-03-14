@@ -1,0 +1,25 @@
+CC=gcc
+CFLAGS=-O2
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
+
+PREFIX=/usr/bin
+
+%.o: %.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+EbuildGentooExample: $(OBJ)
+	$(CC) -o EbuildGentooExample $(OBJ)
+
+.PHONY: clean
+clean:
+	rm -f $(OBJ) EbuildGentooExample
+
+.PHONY: install
+install: EbuildGentooExample
+	mkdir -p $(DESTDIR)$(PREFIX)
+	cp $< $(DESTDIR)$(PREFIX)/EbuildGentooExample
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/EbuildGentooExample
